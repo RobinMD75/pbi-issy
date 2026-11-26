@@ -4,83 +4,224 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Diagnostic DAB — Restitution</title>
+  <title>Diagnostic Flash DAB — CCI 92</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
-    body, html { margin: 0; padding: 0; height: 100%; font-family: Arial, sans-serif; background-color: #f4f6f9; }
-    
-    /* Écran de verrouillage */
-    #login-box {
-      max-width: 420px;
-      margin: 120px auto;
-      padding: 30px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      text-align: center;
+    :root {
+      --bleu: #12356b;
+      --bleu-fonce: #0b2447;
+      --accent: #e3a21a;
+      --texte: #1d2433;
+      --texte-doux: #4b5565;
+      --fond: #f5f7fa;
+      --blanc: #ffffff;
+      --bordure: #dbe1ea;
     }
-    #login-box h2 { margin-top: 0; color: #0044ff; }
-    input[type="password"] {
-      width: 100%;
-      padding: 12px;
-      margin: 15px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 14px;
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    body {
+      font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--texte);
+      background: var(--fond);
+      display: flex;
+      flex-direction: column;
+      min-height: 100dvh;
+      line-height: 1.55;
     }
-    button {
+
+    /* Bandeau */
+    .bandeau {
+      background: var(--bleu-fonce);
+      color: var(--blanc);
+      border-bottom: 4px solid var(--accent);
+    }
+    .bandeau__inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .marque { display: flex; align-items: baseline; gap: 0.6rem; }
+    .marque__sigle { font-weight: 800; font-size: 1.5rem; letter-spacing: 0.01em; }
+    .marque__nom { font-size: 0.9rem; color: #c9d4e8; }
+    .bandeau a.lien {
+      color: var(--blanc);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 1px;
+    }
+    .bandeau a.lien:hover { color: var(--accent); }
+
+    /* Écran d'accès */
+    #login {
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .login__carte {
       width: 100%;
-      padding: 12px;
-      background-color: #0044ff;
-      color: white;
-      border: none;
+      max-width: 440px;
+      background: var(--blanc);
+      border: 1px solid var(--bordure);
+      border-top: 4px solid var(--bleu);
+      border-radius: 6px;
+      padding: 2rem;
+    }
+    .login__carte h1 { font-size: 1.6rem; line-height: 1.2; color: var(--bleu); font-weight: 800; }
+    .login__carte p { margin-top: 0.6rem; color: var(--texte-doux); }
+    .login__carte label { display: block; margin-top: 1.4rem; font-weight: 500; font-size: 0.95rem; }
+    .login__carte input {
+      width: 100%;
+      margin-top: 0.4rem;
+      padding: 0.75rem;
+      font: inherit;
+      border: 1px solid #b9c2d0;
       border-radius: 4px;
-      font-size: 15px;
+    }
+    .login__carte button {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.8rem;
+      font: inherit;
+      font-weight: 700;
+      color: var(--blanc);
+      background: var(--bleu);
+      border: 0;
+      border-radius: 4px;
       cursor: pointer;
-      font-weight: bold;
     }
-    button:hover { background-color: #0033cc; }
-    
-    /* Conteneur Power BI */
-    #content { display: none; width: 100%; height: 100vh; }
-    iframe { width: 100%; height: 100%; border: none; }
+    .login__carte button:hover { background: var(--bleu-fonce); }
+    #erreur { margin-top: 0.8rem; color: #b3261e; font-size: 0.9rem; min-height: 1.3em; }
+
+    /* Page vitrine (visible après le code) */
+    #content { display: none; flex: 1 1 auto; flex-direction: column; }
+    #content.visible { display: flex; }
+
+    .intro { background: var(--blanc); border-bottom: 1px solid var(--bordure); }
+    .intro__inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.75rem 1.5rem;
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      gap: 2rem 3rem;
+      align-items: start;
+    }
+    .intro h1 {
+      font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+      line-height: 1.15;
+      font-weight: 800;
+      color: var(--bleu);
+      letter-spacing: -0.01em;
+    }
+    .intro p { color: var(--texte-doux); max-width: 68ch; }
+    .intro p + p { margin-top: 0.6rem; }
+
+    .rapport { flex: 1 1 auto; display: flex; min-height: 640px; }
+    .rapport iframe { flex: 1 1 auto; width: 100%; border: 0; display: block; }
+
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+    @media (max-width: 800px) {
+      .intro__inner { grid-template-columns: 1fr; padding: 1.25rem 1rem; gap: 0.9rem; }
+      .bandeau__inner { padding: 0.65rem 1rem; }
+      .marque__nom { display: none; }
+      .rapport { min-height: 75dvh; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Formulaire d'accès -->
-  <div id="login-box">
-    <h2>Diagnostic Flash DAB</h2>
-    <p>Accès restreint — Veuillez saisir votre code d'accès :</p>
-    <input type="password" id="passInput" placeholder="Mot de passe">
-    <button onclick="validerCode()">Accéder au rapport</button>
-  </div>
+  <header class="bandeau">
+    <div class="bandeau__inner">
+      <div class="marque">
+        <span class="marque__sigle">CCI 92</span>
+        <span class="marque__nom">Chambre de commerce et d’industrie des Hauts-de-Seine</span>
+      </div>
+      <a class="lien" href="https://www.cci92.fr" target="_blank" rel="noopener">Site de la CCI 92</a>
+    </div>
+  </header>
 
-  <!-- Rapport Power BI -->
+  <!-- Écran d'accès -->
+  <main id="login">
+    <div class="login__carte">
+      <h1>Diagnostic Flash DAB</h1>
+      <p>Accès restreint. Saisissez votre code d’accès pour ouvrir le rapport.</p>
+      <label for="passInput">Code d’accès</label>
+      <input type="password" id="passInput" autocomplete="off" autofocus>
+      <button type="button" id="valider">Accéder au rapport</button>
+      <div id="erreur" role="alert"></div>
+    </div>
+  </main>
+
+  <!-- Page vitrine + rapport Power BI -->
   <div id="content">
-    <iframe 
-      id="pbiFrame"
-      src="https://app.powerbi.com/reportEmbed?reportId=3af93e5e-e879-4132-8c0e-7bb73e62e919&autoAuth=true&ctid=07f2d2f9-b1c9-47e8-b00c-a5903cc61e74" 
-      allowFullScreen="true">
-    </iframe>
+    <section class="intro">
+      <div class="intro__inner">
+        <h1>Diagnostic Flash DAB : la restitution</h1>
+        <div>
+          <p>
+            Ce tableau de bord interactif présente les résultats de votre diagnostic réalisé avec la CCI 92.
+          </p>
+          <p>
+            Utilisez les filtres et les onglets du rapport ci-dessous pour explorer les indicateurs
+            qui vous concernent.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="rapport">
+      <iframe
+        id="pbiFrame"
+        title="Rapport Power BI – Diagnostic Flash DAB"
+        allowfullscreen="true"></iframe>
+    </section>
   </div>
 
   <script>
-    function validerCode() {
-      // Définissez ici le mot de passe d'accès
-      var codeSecret = "CCI92-ISSY"; 
+    // Empreinte SHA-256 du code d'accès (le mot de passe n'apparaît plus en clair).
+    // Pour changer de code : calculez le SHA-256 du nouveau mot de passe et remplacez la valeur ci-dessous.
+    var HASH_CODE = "e160f434e7de103940be3c976e39611bd0095675527d02ea338d547fe81ba550";
+
+    var URL_RAPPORT = "https://app.powerbi.com/reportEmbed?reportId=3af93e5e-e879-4132-8c0e-7bb73e62e919&autoAuth=true&ctid=07f2d2f9-b1c9-47e8-b00c-a5903cc61e74";
+
+    async function sha256(texte) {
+      var data = new TextEncoder().encode(texte);
+      var buf = await crypto.subtle.digest("SHA-256", data);
+      return Array.from(new Uint8Array(buf))
+        .map(function (b) { return b.toString(16).padStart(2, "0"); })
+        .join("");
+    }
+
+    async function validerCode() {
       var saisie = document.getElementById("passInput").value;
-      
-      if (saisie === codeSecret) {
-        document.getElementById("login-box").style.display = "none";
-        document.getElementById("content").style.display = "block";
+      var erreur = document.getElementById("erreur");
+      var empreinte = await sha256(saisie);
+
+      if (empreinte === HASH_CODE) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("content").classList.add("visible");
+        // Le rapport ne se charge qu'après la saisie du bon code
+        document.getElementById("pbiFrame").src = URL_RAPPORT;
       } else {
-        alert("Mot de passe incorrect.");
+        erreur.textContent = "Code incorrect. Vérifiez votre saisie et réessayez.";
       }
     }
-    
-    // Validation avec la touche Entrée
-    document.getElementById("passInput").addEventListener("keypress", function(e) {
+
+    document.getElementById("valider").addEventListener("click", validerCode);
+    document.getElementById("passInput").addEventListener("keydown", function (e) {
       if (e.key === "Enter") { validerCode(); }
     });
   </script>
