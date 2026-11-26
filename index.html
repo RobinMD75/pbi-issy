@@ -1,230 +1,493 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Diagnostic Flash DAB — CCI 92</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DAB - États des lieux à Issy-les-Moulineaux (2026)</title>
   <style>
     :root {
-      --bleu: #12356b;
-      --bleu-fonce: #0b2447;
-      --accent: #e3a21a;
-      --texte: #1d2433;
-      --texte-doux: #4b5565;
-      --fond: #f5f7fa;
-      --blanc: #ffffff;
-      --bordure: #dbe1ea;
+      --bg-page: #f5f6f8;
+      --bg-card: #ffffff;
+      --bg-panel: #eceeed;
+      --sidebar-blue: #1b4be6;
+      --accent-blue: #2758e8;
+      --text-primary: #3b4654;
+      --text-muted: #7c8694;
+      --border-soft: #e2e6ec;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-      font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-      color: var(--texte);
-      background: var(--fond);
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-primary);
       display: flex;
-      flex-direction: column;
-      min-height: 100dvh;
-      line-height: 1.55;
+      min-height: 100vh;
     }
 
-    /* Bandeau */
-    .bandeau {
-      background: var(--bleu-fonce);
-      color: var(--blanc);
-      border-bottom: 4px solid var(--accent);
+    .sidebar {
+      width: 24px;
+      background-color: var(--sidebar-blue);
+      flex-shrink: 0;
     }
-    .bandeau__inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0.75rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-    .marque { display: flex; align-items: baseline; gap: 0.6rem; }
-    .marque__sigle { font-weight: 800; font-size: 1.5rem; letter-spacing: 0.01em; }
-    .marque__nom { font-size: 0.9rem; color: #c9d4e8; }
-    .bandeau a.lien {
-      color: var(--blanc);
-      font-size: 0.9rem;
-      font-weight: 500;
-      text-decoration: none;
-      border-bottom: 1px solid var(--accent);
-      padding-bottom: 1px;
-    }
-    .bandeau a.lien:hover { color: var(--accent); }
 
-    /* Écran d'accès */
-    #login {
-      flex: 1 1 auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem 1rem;
+    .main {
+      flex: 1;
+      padding: 24px 36px 36px;
+      max-width: 1440px;
     }
-    .login__carte {
-      width: 100%;
-      max-width: 440px;
-      background: var(--blanc);
-      border: 1px solid var(--bordure);
-      border-top: 4px solid var(--bleu);
-      border-radius: 6px;
-      padding: 2rem;
-    }
-    .login__carte h1 { font-size: 1.6rem; line-height: 1.2; color: var(--bleu); font-weight: 800; }
-    .login__carte p { margin-top: 0.6rem; color: var(--texte-doux); }
-    .login__carte label { display: block; margin-top: 1.4rem; font-weight: 500; font-size: 0.95rem; }
-    .login__carte input {
-      width: 100%;
-      margin-top: 0.4rem;
-      padding: 0.75rem;
-      font: inherit;
-      border: 1px solid #b9c2d0;
-      border-radius: 4px;
-    }
-    .login__carte button {
-      width: 100%;
-      margin-top: 1rem;
-      padding: 0.8rem;
-      font: inherit;
-      font-weight: 700;
-      color: var(--blanc);
-      background: var(--bleu);
-      border: 0;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .login__carte button:hover { background: var(--bleu-fonce); }
-    #erreur { margin-top: 0.8rem; color: #b3261e; font-size: 0.9rem; min-height: 1.3em; }
 
-    /* Page vitrine (visible après le code) */
-    #content { display: none; flex: 1 1 auto; flex-direction: column; }
-    #content.visible { display: flex; }
+    .header {
+      margin-bottom: 18px;
+    }
 
-    .intro { background: var(--blanc); border-bottom: 1px solid var(--bordure); }
-    .intro__inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 1.75rem 1.5rem;
+    .header h1 {
+      font-size: 24px;
+      font-weight: 400;
+      color: #6c7582;
+      margin-bottom: 4px;
+    }
+
+    .header .subtitle {
+      font-size: 12px;
+      font-style: italic;
+      color: #7c8694;
+    }
+
+    .grid-layout {
       display: grid;
-      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-      gap: 2rem 3rem;
+      grid-template-columns: 1.35fr 0.9fr;
+      gap: 28px;
       align-items: start;
     }
-    .intro h1 {
-      font-size: clamp(1.6rem, 2.6vw, 2.4rem);
-      line-height: 1.15;
-      font-weight: 800;
-      color: var(--bleu);
-      letter-spacing: -0.01em;
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--accent-blue);
+      margin-bottom: 10px;
     }
-    .intro p { color: var(--texte-doux); max-width: 68ch; }
-    .intro p + p { margin-top: 0.6rem; }
 
-    .rapport { flex: 1 1 auto; display: flex; min-height: 640px; }
-    .rapport iframe { flex: 1 1 auto; width: 100%; border: 0; display: block; }
+    .table-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: 12px;
+      padding: 14px 18px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
 
-    :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    .table-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
 
-    @media (max-width: 800px) {
-      .intro__inner { grid-template-columns: 1fr; padding: 1.25rem 1rem; gap: 0.9rem; }
-      .bandeau__inner { padding: 0.65rem 1rem; }
-      .marque__nom { display: none; }
-      .rapport { min-height: 75dvh; }
+    .table-toolbar input,
+    .table-toolbar select {
+      font-family: inherit;
+      font-size: 12.5px;
+      padding: 6px 10px;
+      border: 1px solid #cfd6e0;
+      border-radius: 6px;
+      background: #fff;
+      color: var(--text-primary);
+    }
+
+    .table-wrap {
+      max-height: 540px;
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+
+    thead th {
+      text-align: left;
+      font-weight: 600;
+      color: #333b45;
+      padding: 8px 10px;
+      border-bottom: 1.5px solid #4a525d;
+      position: sticky;
+      top: 0;
+      background: var(--bg-card);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    tbody td {
+      padding: 7px 10px;
+      color: #5b87e5;
+      border-bottom: 1px solid #f0f2f6;
+    }
+
+    tbody tr:hover {
+      background-color: #f8faff;
+    }
+
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .grey-panel {
+      background-color: var(--bg-panel);
+      border-radius: 6px;
+      padding: 16px 20px 22px;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px 16px;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .kpi-label {
+      font-size: 12.5px;
+      color: #424a54;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .kpi-value {
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--accent-blue);
+    }
+
+    .pbi-link {
+      font-size: 16px;
+      color: var(--accent-blue);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .pbi-link:hover {
+      text-decoration: underline;
+    }
+
+    .nearest-box h2 {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--accent-blue);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .dropdown-group {
+      max-width: 390px;
+      margin: 0 auto 20px;
+    }
+
+    .dropdown-group label {
+      display: block;
+      font-size: 12px;
+      color: #5b6470;
+      margin-bottom: 5px;
+    }
+
+    .dropdown-group select {
+      width: 100%;
+      padding: 7px 10px;
+      font-size: 13px;
+      border: 1px solid #c5ccd6;
+      border-radius: 3px;
+      background: #fff;
+      color: #4b5563;
+    }
+
+    .avg-distance {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .avg-distance .label {
+      font-size: 14px;
+      color: #424a54;
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+
+    .avg-distance .pill {
+      display: inline-block;
+      background: #e3e5e8;
+      color: var(--accent-blue);
+      font-size: 20px;
+      font-weight: 500;
+      padding: 6px 36px;
+      border-radius: 8px;
+    }
+
+    .detail-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .detail-card {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 12px 14px;
+      text-align: center;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .detail-card .title {
+      font-size: 13px;
+      color: #424a54;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+
+    .detail-card .value {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--accent-blue);
+    }
+
+    @media (max-width: 960px) {
+      .grid-layout {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
+  <aside class="sidebar" aria-hidden="true"></aside>
 
-  <header class="bandeau">
-    <div class="bandeau__inner">
-      <div class="marque">
-        <span class="marque__sigle">CCI 92</span>
-        <span class="marque__nom">Chambre de commerce et d’industrie des Hauts-de-Seine</span>
-      </div>
-      <a class="lien" href="https://www.cci92.fr" target="_blank" rel="noopener">Site de la CCI 92</a>
-    </div>
-  </header>
+  <main class="main">
+    <header class="header">
+      <h1>Distributeur automatique de billets (DAB) - Etats des lieux à Issy les Moulineaux en 2026</h1>
+      <p class="subtitle">Données issues d'un recensement terrain des banques et des DAB le 12 novembre 2026</p>
+    </header>
 
-  <!-- Écran d'accès -->
-  <main id="login">
-    <div class="login__carte">
-      <h1>Diagnostic Flash DAB</h1>
-      <p>Accès restreint. Saisissez votre code d’accès pour ouvrir le rapport.</p>
-      <label for="passInput">Code d’accès</label>
-      <input type="password" id="passInput" autocomplete="off" autofocus>
-      <button type="button" id="valider">Accéder au rapport</button>
-      <div id="erreur" role="alert"></div>
+    <div class="grid-layout">
+      <section>
+        <h2 class="section-title">Liste des agences bancaires à Issy les Moulineaux</h2>
+        <div class="table-card">
+          <div class="table-toolbar">
+            <input type="text" id="searchInput" placeholder="Filtrer par enseigne ou adresse..." />
+            <select id="functionFilter">
+              <option value="">Toutes les fonctions</option>
+              <option value="Agence bancaire avec DAB">Agence bancaire avec DAB</option>
+              <option value="Agence bancaire sans DAB extérieur">Agence bancaire sans DAB extérieur</option>
+              <option value="DAB UNIQUEMENT">DAB UNIQUEMENT</option>
+              <option value="Agence bancaire en travaux">Agence bancaire en travaux</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table id="agenciesTable">
+              <thead>
+                <tr>
+                  <th data-col="enseigne">Enseigne ▴</th>
+                  <th data-col="adresse">Adresse</th>
+                  <th data-col="fonction">Fonction</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <aside class="right-column">
+        <section class="grey-panel">
+          <h2 class="section-title">Chiffres clés :</h2>
+          <div class="kpi-grid">
+            <div>
+              <div class="kpi-label">Nombre d'agences bancaires</div>
+              <div class="kpi-value" id="kpiAgencies">24</div>
+            </div>
+            <div>
+              <div class="kpi-label">Nombre de DAB</div>
+              <div class="kpi-value" id="kpiDab">17</div>
+            </div>
+            <div>
+              <div class="kpi-label">Nombre d'agences bancaires<br>sans DAB</div>
+              <div class="kpi-value" id="kpiNoDab">6</div>
+            </div>
+            <div>
+              <div class="kpi-label">Nombre de DAB pour 10 000<br>habitants</div>
+              <div class="kpi-value" id="kpiPer10k">2,5</div>
+            </div>
+          </div>
+        </section>
+
+        <a class="pbi-link" href="#" id="pbiLink">Lien Power BI interactif</a>
+
+        <section class="grey-panel nearest-box">
+          <h2>Connaître l'agence bancaire la plus proche :</h2>
+
+          <div class="dropdown-group">
+            <label for="addressSelect">Liste des adresses (à sélectionner)</label>
+            <select id="addressSelect">
+              <option value="">Tout</option>
+            </select>
+          </div>
+
+          <div class="avg-distance">
+            <div class="label">Distance moyenne à une agence bancaire<br>pour un Isséen</div>
+            <div class="pill" id="avgDistance">317,98 m</div>
+          </div>
+
+          <div class="detail-cards">
+            <div class="detail-card">
+              <div class="title">Distance entre l'adresse choisie et<br>l'agence bancaire la plus proche</div>
+              <div class="value" id="selectedDistance">Veuillez choisir une adresse</div>
+            </div>
+            <div class="detail-card">
+              <div class="title">Nom de l'agence bancaire la plus<br>proche</div>
+              <div class="value" id="nearestBank">AXA</div>
+            </div>
+          </div>
+        </section>
+      </aside>
     </div>
   </main>
 
-  <!-- Page vitrine + rapport Power BI -->
-  <div id="content">
-    <section class="intro">
-      <div class="intro__inner">
-        <h1>Diagnostic Flash DAB : la restitution</h1>
-        <div>
-          <p>
-            Ce tableau de bord interactif présente les résultats de votre diagnostic réalisé avec la CCI 92.
-          </p>
-          <p>
-            Utilisez les filtres et les onglets du rapport ci-dessous pour explorer les indicateurs
-            qui vous concernent.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section class="rapport">
-      <iframe
-        id="pbiFrame"
-        title="Rapport Power BI – Diagnostic Flash DAB"
-        allowfullscreen="true"></iframe>
-    </section>
-  </div>
-
   <script>
-    // Empreinte SHA-256 du code d'accès (le mot de passe n'apparaît plus en clair).
-    // Pour changer de code : calculez le SHA-256 du nouveau mot de passe et remplacez la valeur ci-dessous.
-    var HASH_CODE = "e160f434e7de103940be3c976e39611bd0095675527d02ea338d547fe81ba550";
+    const DATA = {
+      kpis: {
+        agencies: 24,
+        dab: 17,
+        noDab: 6,
+        per10k: "2,5",
+        avgDistance: "317,98 m",
+        defaultNearestBank: "AXA"
+      },
+      agencies: [
+        { enseigne: "BANQUE POPULAIRE", adresse: "1 AV VICTOR CRESSON", fonction: "Agence bancaire avec DAB" },
+        { enseigne: "CREDIT AGRICOLE", adresse: "1 BIS AV VICTOR CRESSON", fonction: "Agence bancaire avec DAB" },
+        { enseigne: "AXA", adresse: "10 AV VICTOR CRESSON", fonction: "Agence bancaire sans DAB extérieur" },
+        { enseigne: "BANQUE POPULAIRE", adresse: "15 BD DES ILES", fonction: "Agence bancaire avec DAB" },
+        { enseigne: "LCL", adresse: "15 BD VOLTAIRE", fonction: "Agence bancaire avec DAB" },
+        { enseigne: "CREDIT AGRICOLE", adresse: "16 BD VOLTAIRE", fonction: "Agence bancaire avec DAB" },
+        { enseigne: "SOCIETE GENERALE", adresse: "2 RUE AUGUSTE GERVAIS", fonction: "Agence bancaire sans DAB extérieur" },
+        { enseigne: "LA BANQUE POSTALE", adresse: "26 AV VICTOR CRESSON", fonction: "Agence bancaire avec DAB" },
+        { enseigne: "LA BANQUE POSTALE", adresse: "3 ALL SAINTE LUCIE", fonction: "Agence bancaire avec DAB" },
+        { enseigne: "ONEY", adresse: "3 ALL SAINTE LUCIE", fonction: "DAB UNIQUEMENT" },
+        { enseigne: "SOCIETE GENERALE", adresse: "3 ALL SAINTE LUCIE", fonction: "Agence bancaire avec DAB" },
+        { enseigne: "BNP PARIBAS", adresse: "3 PL PAUL VAILLANT COUTURIER", fonction: "Agence bancaire sans DAB extérieur" },
+        { enseigne: "CIC", adresse: "30 AV DE LA REPUBLIQUE", fonction: "Agence bancaire en travaux" },
+        { enseigne: "SOCIETE GENERALE", adresse: "39 RUE ERNEST RENAN", fonction: "Agence bancaire avec DAB" },
+        { enseigne: "CAISSE D EPARGNE", adresse: "4 AV VICTOR CRESSON", fonction: "Agence bancaire avec DAB" },
+        { enseigne: "LA BANQUE POSTALE", adresse: "4 PAS NICOLAS STENON", fonction: "Agence bancaire avec DAB" },
+        { enseigne: "LCL", adresse: "41 RUE JEAN PIERRE TIMBAUD", fonction: "Agence bancaire avec DAB" },
+        { enseigne: "BNP PARIBAS", adresse: "53 BD DU GENERAL LECLERC", fonction: "Agence bancaire avec DAB" },
+        { enseigne: "LA BANQUE POSTALE", adresse: "54 RUE D EREVAN", fonction: "DAB UNIQUEMENT" },
+        { enseigne: "CREDIT MUTUEL", adresse: "56 BD DU GENERAL LECLERC", fonction: "Agence bancaire sans DAB extérieur" },
+        { enseigne: "CCF", adresse: "59 BD DU GENERAL LECLERC", fonction: "Agence bancaire sans DAB extérieur" },
+        { enseigne: "LA BANQUE POSTALE", adresse: "60 RUE CAMILLE DESMOULINS", fonction: "Agence bancaire avec DAB" },
+        { enseigne: "LCL", adresse: "63 BD DU GENERAL LECLERC", fonction: "Agence bancaire avec DAB" },
+        { enseigne: "CIC", adresse: "72 RUE CAMILLE DESMOULINS", fonction: "Agence bancaire sans DAB extérieur" }
+      ],
+      // Ajoute ici tes adresses testées avec { adresse, distance, agence }
+      addressLookup: []
+    };
 
-    var URL_RAPPORT = "https://app.powerbi.com/reportEmbed?reportId=3af93e5e-e879-4132-8c0e-7bb73e62e919&autoAuth=true&ctid=07f2d2f9-b1c9-47e8-b00c-a5903cc61e74";
+    let sortState = { col: "enseigne", asc: true };
 
-    async function sha256(texte) {
-      var data = new TextEncoder().encode(texte);
-      var buf = await crypto.subtle.digest("SHA-256", data);
-      return Array.from(new Uint8Array(buf))
-        .map(function (b) { return b.toString(16).padStart(2, "0"); })
+    const tableBody = document.getElementById("tableBody");
+    const searchInput = document.getElementById("searchInput");
+    const functionFilter = document.getElementById("functionFilter");
+    const addressSelect = document.getElementById("addressSelect");
+    const selectedDistanceEl = document.getElementById("selectedDistance");
+    const nearestBankEl = document.getElementById("nearestBank");
+
+    function renderTable() {
+      const q = searchInput.value.trim().toLowerCase();
+      const fn = functionFilter.value;
+
+      const filtered = DATA.agencies
+        .filter((row) => {
+          const matchesFn = !fn || row.fonction === fn;
+          const matchesText =
+            !q ||
+            row.enseigne.toLowerCase().includes(q) ||
+            row.adresse.toLowerCase().includes(q) ||
+            row.fonction.toLowerCase().includes(q);
+          return matchesFn && matchesText;
+        })
+        .sort((a, b) => {
+          const cmp = a[sortState.col].localeCompare(b[sortState.col], "fr");
+          return sortState.asc ? cmp : -cmp;
+        });
+
+      tableBody.innerHTML = filtered
+        .map(
+          (r) => `
+          <tr>
+            <td>${r.enseigne}</td>
+            <td>${r.adresse}</td>
+            <td>${r.fonction}</td>
+          </tr>
+        `
+        )
         .join("");
     }
 
-    async function validerCode() {
-      var saisie = document.getElementById("passInput").value;
-      var erreur = document.getElementById("erreur");
-      var empreinte = await sha256(saisie);
+    function populateAddresses() {
+      const uniqueAddresses = DATA.addressLookup.length
+        ? DATA.addressLookup.map((x) => x.adresse)
+        : [...new Set(DATA.agencies.map((a) => a.adresse))];
 
-      if (empreinte === HASH_CODE) {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("content").classList.add("visible");
-        // Le rapport ne se charge qu'après la saisie du bon code
-        document.getElementById("pbiFrame").src = URL_RAPPORT;
-      } else {
-        erreur.textContent = "Code incorrect. Vérifiez votre saisie et réessayez.";
-      }
+      uniqueAddresses.forEach((addr) => {
+        const opt = document.createElement("option");
+        opt.value = addr;
+        opt.textContent = addr;
+        addressSelect.appendChild(opt);
+      });
     }
 
-    document.getElementById("valider").addEventListener("click", validerCode);
-    document.getElementById("passInput").addEventListener("keydown", function (e) {
-      if (e.key === "Enter") { validerCode(); }
+    addressSelect.addEventListener("change", (e) => {
+      const val = e.target.value;
+      if (!val) {
+        selectedDistanceEl.textContent = "Veuillez choisir une adresse";
+        nearestBankEl.textContent = DATA.kpis.defaultNearestBank;
+        return;
+      }
+      const match = DATA.addressLookup.find((item) => item.adresse === val);
+      if (match) {
+        selectedDistanceEl.textContent = match.distance;
+        nearestBankEl.textContent = match.agence;
+      } else {
+        selectedDistanceEl.textContent = "À renseigner dans addressLookup";
+        const agencyMatch = DATA.agencies.find((a) => a.adresse === val);
+        nearestBankEl.textContent = agencyMatch ? agencyMatch.enseigne : DATA.kpis.defaultNearestBank;
+      }
     });
-  </script>
 
+    document.querySelectorAll("thead th[data-col]").forEach((th) => {
+      th.addEventListener("click", () => {
+        const col = th.dataset.col;
+        if (sortState.col === col) {
+          sortState.asc = !sortState.asc;
+        } else {
+          sortState.col = col;
+          sortState.asc = true;
+        }
+        renderTable();
+      });
+    });
+
+    searchInput.addEventListener("input", renderTable);
+    functionFilter.addEventListener("change", renderTable);
+
+    renderTable();
+    populateAddresses();
+  </script>
 </body>
 </html>
