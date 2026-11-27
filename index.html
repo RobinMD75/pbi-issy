@@ -465,19 +465,25 @@
 
     // 2. Base des 5 894 adresses d'Issy-les-Moulineaux issues de "distance_du_centre"
     // Format: [Adresse, HubName_ID, Distance_mètres]
-    let DISTANCE_DATA = [];
+   let DISTANCE_DATA = [];
 
-fetch("./distance_data(1).json")
-  .then(response => {
-    if (!response.ok) throw new Error("Fichier introuvable");
+   fetch("./distance_data(1).json")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP : ${response.status}`);
+    }
     return response.json();
   })
-  .then(data => {
-    DISTANCE_DATA = data;
-    console.log("Données chargées :", DISTANCE_DATA);
-    // Lancez ici la fonction qui utilise DISTANCE_DATA
+    .then(data => {
+      DISTANCE_DATA = data;
+      console.log("Données chargées :", DISTANCE_DATA);
+
+    // Ta fonction utilisant les données doit être appelée ici
+    // initMap();
   })
-  .catch(error => console.error("Erreur :", error));
+  .catch(error => {
+    console.error("Erreur chargement JSON :", error);
+  });
     // 3. Gestion du Tableau et des Filtres
     let sortState = { col: "enseigne", asc: true };
     const tableBody = document.getElementById("tableBody");
