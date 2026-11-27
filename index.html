@@ -465,7 +465,19 @@
 
     // 2. Base des 5 894 adresses d'Issy-les-Moulineaux issues de "distance_du_centre"
     // Format: [Adresse, HubName_ID, Distance_mètres]
-    const DISTANCE_DATA = ["distance_data(1).json"]
+    let DISTANCE_DATA = [];
+
+fetch("./distance_data(1).json")
+  .then(response => {
+    if (!response.ok) throw new Error("Fichier introuvable");
+    return response.json();
+  })
+  .then(data => {
+    DISTANCE_DATA = data;
+    console.log("Données chargées :", DISTANCE_DATA);
+    // Lancez ici la fonction qui utilise DISTANCE_DATA
+  })
+  .catch(error => console.error("Erreur :", error));
     // 3. Gestion du Tableau et des Filtres
     let sortState = { col: "enseigne", asc: true };
     const tableBody = document.getElementById("tableBody");
